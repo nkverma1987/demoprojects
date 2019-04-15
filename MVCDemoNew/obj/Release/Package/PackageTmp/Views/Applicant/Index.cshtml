@@ -1,0 +1,96 @@
+﻿@*@model IEnumerable<MVCDemoNew.Entity.tblApplicant>*@
+@model PagedList.IPagedList<MVCDemoNew.Entity.tblApplicant>
+@using PagedList.Mvc;
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Appicants</h2>
+
+<p>
+    @Html.ActionLink("Add Applicant", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Candidate ID")
+        </th>
+        <th>
+            @Html.DisplayName("Name")
+        </th>
+        <th>
+            @Html.DisplayName("Email")
+        </th>
+        <th>
+            @Html.DisplayName("Phone")
+        </th>
+        <th>
+            @Html.DisplayName("City")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CandidateID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            <a class="glyphicon glyphicon-pencil" href="/Applicant/Edit/@item.ID"></a>&nbsp;         
+            <a class="glyphicon glyphicon-trash" href="#" onclick='confirmdelete(@item.ID)' title="Delete"></a>
+        </td>
+    </tr>
+}
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, Page_No => Url.Action("Index",
+    new { Page_No})) 
+
+
+<script type="text/javascript">
+    function confirmdelete(id) {
+        var confirmVal = window.confirm("Are you sureto delete?");
+        if( confirmVal == true ){
+            remove(id);
+        }
+    }
+    function remove(id)
+    {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("Delete", "Applicant")?id='+id,
+            success: function (Response) {
+                if(Response.Error===false)
+                {
+                    alert('Successfully '+Response.Message);
+                    window.location = "/Applicant/Index";
+                }
+                else
+                {
+                    alert('Error');
+                }
+            },
+            Error: function (textMsg) {
+                alert("Error: " + Error);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,93 @@
+﻿@model IEnumerable<MVCDemoNew.Models.StudentClass>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p>
+    @Html.ActionLink("Add Student", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Class)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EnrollYear)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Country)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Class)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnrollYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssociatedCountry.Name)
+            </td>
+            <td>
+                <a class="glyphicon glyphicon-pencil" href="/Student/Edit/@item.StudentID"></a>&nbsp;
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.StudentID }, new { @class = "glyphicon glyphicon-pencil" }) |*@
+                @*@Html.ActionLink("Details", "Details", new { id=item.StudentID }) |*@
+                <a class="glyphicon glyphicon-trash" href="#" onclick='confirmdelete(@item.StudentID)' title="Delete"></a>
+            </td>
+        </tr>
+    }
+
+</table>
+<script type="text/javascript">
+    function confirmdelete(id) {
+        var confirmVal = window.confirm("Are you sureto delete?");
+        if( confirmVal == true ){
+            remove(id);
+        }
+    }
+    function remove(id)
+    {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("Delete", "Student")?id='+id,
+            success: function (Response) {
+                if(Response.Error===false)
+                {
+                    alert('Successfully '+Response.Message);
+                    window.location="/Student/Index";
+                }
+                else
+                {
+                    alert('Error');
+                }
+            },
+            Error: function (textMsg) {
+                alert("Error: " + Error);
+            }
+        });
+    }
+</script>

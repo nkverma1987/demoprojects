@@ -1,0 +1,144 @@
+﻿@model MVCDemoNew.Entity.tblApplicant
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+   
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @if (Model.ID == 0)
+                {
+                        <input type="button" value="Create" class="btn btn-default" onclick="save()" />
+                    }
+                    else
+                    {
+                        <input type="button" value="Update" class="btn btn-default" onclick="update()" />
+                    }
+                </div>
+            </div>        
+        </div>
+   
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script type="text/javascript">
+    function save()
+    {
+        var jsonobject=@Html.Raw(Json.Encode(Model));
+        jsonobject["Name"]=$("#Name").val();
+        jsonobject["Email"]=$("#Email").val();
+        jsonobject["Phone"] = $("#Phone").val();
+        jsonobject["City"]=$("#City").val();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("Create", "Applicant")',
+            data: JSON.stringify(jsonobject),
+            success: function (Response) {
+                if(Response.Error===false)
+                {
+                    alert('Added');
+                    window.location="/Applicant/Index";
+                }
+                else
+                {
+                    alert('Error');
+                }
+            },
+            Error: function (textMsg) {
+                alert("Error: " + Error);
+            }
+        });
+    }
+    function update()
+    {
+        debugger;
+        var jsonobject=@Html.Raw(Json.Encode(Model));
+        jsonobject["Name"]=$("#Name").val();
+        jsonobject["Email"]=$("#Email").val();
+        jsonobject["Phone"] = $("#Phone").val();
+        jsonobject["City"]=$("#City").val();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("Edit", "Applicant")',
+            data: JSON.stringify(jsonobject),
+            success: function (Response) {
+                if(Response.Error===false)
+                {
+                    alert('Updated');
+                    window.location="/Applicant/Index";
+                }
+                else
+                {
+                    alert('Error');
+                }
+            },
+            Error: function (textMsg) {
+                alert("Error: " + Error);
+            }
+        });
+    }
+
+    function test()
+    {
+        debugger;
+        var jsonobject={};
+        jsonobject["Name"]=$("#Name").val();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("Test", "Student")',
+            data: JSON.stringify(jsonobject),
+            success: function (Response) {
+                alert(Response.Message);
+            },
+            Error: function (textMsg) {
+                alert("Error: " + Error);
+            }
+        });
+    }
+</script>

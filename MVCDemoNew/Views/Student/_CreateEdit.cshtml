@@ -1,0 +1,197 @@
+﻿@model MVCDemoNew.Entity.Student
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    MVCDemoNew.Models.Country cntry = new MVCDemoNew.Models.Country();
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <form id="frmStudent" name="frmStudent">
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Class, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Class, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Class, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EnrollYear, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EnrollYear, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EnrollYear, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Country, new SelectList(cntry.GetCountries(), "Id", "Name"), new { @Id = "ddlCountry", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @if (Model.StudentID == 0)
+                {
+                        <input type="button" value="Create" class="btn btn-default" onclick="save()" />
+                    }
+                    else
+                    {
+                        <input type="button" value="Update" class="btn btn-default" onclick="update()" />
+                    }
+                </div>
+            </div>
+            @*<div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="Test" class="btn btn-default" onclick="test()" />
+                    </div>
+                </div>*@
+        </div>
+    </form>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script type="text/javascript">
+    
+    $(document).ready(function() {
+        $("#frmStudent").validate({
+            rules: {
+                Name: "required"
+            },
+            messages: {
+                Name: "Please specify your name"
+
+            }
+        })
+    });
+
+    function save()
+    {
+        if($("#Name").val()=="")
+        {
+            alert("Please enter name!");
+            return;
+        }
+        //$("#frmStudent").validte();
+        var jsonobject=@Html.Raw(Json.Encode(Model));
+        jsonobject["Name"]=$("#Name").val();
+        jsonobject["Email"]=$("#Email").val();
+        jsonobject["Class"] = $("#Class").val();
+        jsonobject["EnrollYear"]=$("#EnrollYear").val();
+        jsonobject["City"]=$("#City").val();
+        jsonobject["Country"]=$("#ddlCountry").val();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("Save", "Student")',
+            data: JSON.stringify(jsonobject),
+            success: function (Response) {
+                if(Response.Error===false)
+                {
+                    alert('Added');
+                    window.location="/Student/Index";
+                }
+                else
+                {
+                    alert('Error');
+                }
+            },
+            Error: function (textMsg) {
+                alert("Error: " + Error);
+            }
+        });
+    }
+    function update()
+    {
+        debugger;
+        var jsonobject=@Html.Raw(Json.Encode(Model));
+        jsonobject["Name"]=$("#Name").val();
+        jsonobject["Email"]=$("#Email").val();
+        jsonobject["Class"] = $("#Class").val();
+        jsonobject["EnrollYear"]=$("#EnrollYear").val();
+        jsonobject["City"]=$("#City").val();
+        jsonobject["Country"]=$("#ddlCountry").val();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("Edit", "Student")',
+            data: JSON.stringify(jsonobject),
+            success: function (Response) {
+                if(Response.Error===false)
+                {
+                    alert('Updated');
+                    window.location="/Student/Index";
+                }
+                else
+                {
+                    alert('Error');
+                }
+            },
+            Error: function (textMsg) {
+                alert("Error: " + Error);
+            }
+        });
+    }
+
+    function test()
+    {
+        debugger;
+        var jsonobject={};
+        jsonobject["Name"]=$("#Name").val();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("Test", "Student")',
+            data: JSON.stringify(jsonobject),
+            success: function (Response) {
+                alert(Response.Message);
+            },
+            Error: function (textMsg) {
+                alert("Error: " + Error);
+            }
+        });
+    }
+</script>

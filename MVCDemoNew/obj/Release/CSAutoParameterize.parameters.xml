@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-MVCDemoNew-20181014013136.mdf;Initial Catalog=aspnet-MVCDemoNew-20181014013136;Integrated Security=True" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="G:\\VS2015\\POC\\MVCDemoNew\\MVCDemoNew\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="NitishConnectionString-Web.config Connection String" description="NitishConnectionString Connection String used in web.config by the application to access the database." defaultValue="Data Source=(local);Initial Catalog=Nitish;Integrated Security=True" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="G:\\VS2015\\POC\\MVCDemoNew\\MVCDemoNew\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='NitishConnectionString']/@connectionString" />
+  </parameter>
+  <parameter name="AzureStorageAccount-Web.config Connection String" description="AzureStorageAccount Connection String used in web.config by the application to access the database." defaultValue="DefaultEndpointsProtocol=https;AccountName=nkvteststorage;AccountKey=s8j8EZzGuH+X/WCVTwFRuLLqwkFuXisoAFGsvx2tI+kIBxyvgdsR4PzbIb30Mmx8hD/2JvnwDI1c7F6zgQMmJA==;EndpointSuffix=core.windows.net" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="G:\\VS2015\\POC\\MVCDemoNew\\MVCDemoNew\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='AzureStorageAccount']/@connectionString" />
+  </parameter>
+</parameters>

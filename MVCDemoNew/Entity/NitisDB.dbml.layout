@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="NitisDB">
+  <DataContextMoniker Name="/NitisDBDataContext" />
+  <nestedChildShapes>
+    <classShape Id="1ce5c952-5961-4ac4-9a81-23c27bdd712b" absoluteBounds="1.25, 0.5, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/NitisDBDataContext/Student" />
+      <nestedChildShapes>
+        <elementListCompartment Id="478dea56-66ff-449c-b0f9-c7c8f565852e" absoluteBounds="1.2650000000000001, 0.96, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ffaf2f1a-1568-46ca-8ea8-bed346e8c1fd" absoluteBounds="4.625, 0.5, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/NitisDBDataContext/tblCountry" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5faa87c5-3ebe-4f5e-a6f9-a91bbdcacc87" absoluteBounds="4.64, 0.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="385c94e4-2a62-417b-9e2f-b67a48dfb3c3" absoluteBounds="4.875, 2.25, 2, 1.9631982421875">
+      <DataClassMoniker Name="/NitisDBDataContext/tblApplicant" />
+      <nestedChildShapes>
+        <elementListCompartment Id="bd2e20c6-4167-4fb0-aef8-124e6f5c2a26" absoluteBounds="4.89, 2.71, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

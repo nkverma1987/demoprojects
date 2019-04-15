@@ -1,0 +1,40 @@
+﻿@model MVCDemoNew.Models.Employee
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h3>Are you sure you want to delete? @Model.RowKey</h3>
+<div>
+    <div class="form-actions no-color">
+        <input type="submit" onclick="remove()" value="Delete" class="btn btn-default" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+<script type="text/javascript">
+    function remove()
+    {
+        var jsonobject=@Html.Raw(Json.Encode(Model));      
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("Delete", "Empoyee")',
+            data: JSON.stringify(jsonobject),
+            success: function (Response) {
+                if(Response.Error===false)
+                {
+                    alert('Successfully Deleted');
+                    window.location="/Empoyee/Index";
+                }
+                else
+                {
+                    alert('Error');
+                }
+            },
+            Error: function (textMsg) {
+                alert("Error: " + Error);
+            }
+        });
+    }
+</script>

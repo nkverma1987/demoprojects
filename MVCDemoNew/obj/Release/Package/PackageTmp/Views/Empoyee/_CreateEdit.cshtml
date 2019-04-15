@@ -1,0 +1,97 @@
+﻿@model MVCDemoNew.Models.Employee
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Employee</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Employee Number", htmlAttributes: new { @Id = "txtEmpNo", @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PartitionKey, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Name", htmlAttributes: new { @d = "txtName", @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RowKey, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Create" class="btn btn-default" onclick="save()" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script type="text/javascript">
+    function save()
+    {
+        debugger;
+        var jsonobject=@Html.Raw(Json.Encode(Model));
+        jsonobject["PartitionKey"]=$("#PartitionKey").val();
+        jsonobject["RowKey"]=$("#RowKey").val();
+        jsonobject["City"]=$("#City").val();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("Save", "Empoyee")',
+            data: JSON.stringify(jsonobject),
+            success: function (Response) {
+                if(Response.Error===false)
+                {
+                    debugger;
+                    alert('Successfully Saved');
+                    $("#PartitionKey").val('');
+                    $("#RowKey").val('');
+                    $("#City").val('');
+                }
+                else
+                {
+                    alert('Error');
+                }
+            },
+            Error: function (textMsg) {
+                alert("Error: " + Error);
+            }
+        });
+    }
+    function test()
+    {
+        debugger;
+        var jsonobject={};
+        jsonobject["Name"]=$("#Name").val();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("Test", "Student")',
+            data: JSON.stringify(jsonobject),
+            success: function (Response) {
+                alert(Response.Message);
+            },
+            Error: function (textMsg) {
+                alert("Error: " + Error);
+            }
+        });
+    }
+</script>
